@@ -6,16 +6,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{% block title %}My Django App{% endblock %}</title>
+    <title>{% block title %}Cafe System{% endblock %}</title>
 
     {% bootstrap_css %}
+
+    <style>
+        .cafe-table {
+            min-height: 130px;
+            transition: transform 0.2s;
+        }
+
+        .cafe-table:hover {
+            transform: scale(1.04);
+        }
+
+        .table-available {
+            border: 3px solid #198754;
+        }
+
+        .table-occupied {
+            border: 3px solid #dc3545;
+        }
+
+        .cafe-floor {
+            min-height: 600px;
+            background-color: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
+        }
+
+        .order-item {
+            border-bottom: 1px solid #dee2e6;
+            padding: 8px 0;
+        }
+    </style>
 </head>
+
 <body>
-    <main class="container py-4">
+    <nav class="navbar navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'table_list' %}">
+                Cafe System
+            </a>
+        </div>
+    </nav>
+
+    <main class="container">
         {% block content %}
         {% endblock %}
     </main>
-
     {% bootstrap_javascript %}
+
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

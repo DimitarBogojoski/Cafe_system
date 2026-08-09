@@ -32,3 +32,10 @@ def remove_order_item(item_id):
     product.stock_quantity+=item.quantity
     product.save(update_fields=["stock_quantity"])
     item.delete()
+
+@transaction.atomic
+def pay_order(order_id):
+    order = Order.objects.select_for_update().get(id=order_id,status="open")
+    order.status = "paid"
+    order.save(update_fields=["status"])
+    return order

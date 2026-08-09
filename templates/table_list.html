@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Cafe Tables{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="mb-1">Cafe Tables</h1>
+        <p class="text-muted mb-0">
+            Select a table to view or edit its order.
+        </p>
+    </div>
+
+    <div>
+        <span class="badge bg-success">Available</span>
+        <span class="badge bg-danger">Occupied</span>
+    </div>
+</div>
+
+<div class="cafe-floor p-4">
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+        {% for table in tables %}
+            <div class="col">
+                <button
+                    type="button"
+                    class="card w-100 cafe-table {% if table.is_occupied %}table-occupied{% else %}table-available{% endif %}"
+                    data-bs-toggle="modal"
+                    data-bs-target="#tableModal"
+                    data-table-id="{{ table.id }}"
+                    data-table-number="{{ table.number }}"
+                    data-table-status="{% if table.is_occupied %}Occupied{% else %}Available{% endif %}"
+                >
+                    <div class="card-body text-center">
+                        <h4 class="card-title">Table {{ table.number }}</h4>
+
+                        {% if table.is_occupied %}
+                            <span class="badge bg-danger">Occupied</span>
+                        {% else %}
+                            <span class="badge bg-success">Available</span>
+                        {% endif %}
+                    </div>
+                </button>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-warning">
+                    No tables have been created yet.
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="modal fade" id="tableModal" tabindex="-1" aria-labelledby="tableModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h5 class="modal-title" id="tableModalLabel">Table</h5>
+                    <small class="text-muted" id="tableStatus">Status</small>
+                </div>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row g-4">
+                    <div class="col-md-7">
+                        <h5>Current order</h5>
+
+                        <div id="orderItems">
+                            <div class="alert alert-secondary">
+                                No products added yet.
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between border-top pt-3 mt-3">
+                            <strong>Total:</strong>
+                            <strong id="orderTotal">0.00 ден.</strong>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <h5>Add product</h5>
+
+                        <form id="addProductForm">
+                            {% csrf_token %}
+
+                            <input type="hidden" id="selectedTableId" name="table_id">
+
+                            <div class="mb-3">
+                                <label for="product" class="form-label">Product</label>
+                                <select class="form-select" id="product" name="product_id" required>
+                                    <option value="">Select a product</option>
+                                    {% for product in products %}
+                                        <option value="{{ product.id }}">
+                                            {{ product.name }} - {{ product.price }} ден.
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="quantity" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="quantity" name="quantity" min="1" value="1" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100">Add to order</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="payOrderButton">Pay order</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/table-layout.js' %}"></script>
+{% endblock %}
