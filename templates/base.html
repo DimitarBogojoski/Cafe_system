@@ -11,38 +11,59 @@
     {% bootstrap_css %}
 
     <style>
-        .cafe-table {
-            min-height: 130px;
-            transition: transform 0.2s;
-        }
-
-        .cafe-table:hover {
-            transform: scale(1.04);
-        }
-
-        .table-available {
-            border: 3px solid #198754;
-        }
-
-        .table-occupied {
-            border: 3px solid #dc3545;
-        }
-
         .cafe-floor {
-            min-height: 600px;
+            position: relative;
+            width: 600px;
+            height: 480px;
+            margin: 0 auto;
             background-color: #f8f9fa;
-            border: 2px solid #dee2e6;
-            border-radius: 12px;
+            border: 3px solid #212529;
         }
 
-        .order-item {
-            border-bottom: 1px solid #dee2e6;
-            padding: 8px 0;
+        .cafe-floor-inside{
+            width: 400px;
+            height: 300px;
+            margin-left: 197px;
+            margin-top: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            border-style:solid solid dotted dotted;
         }
+
+        .cafe-circle {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 3px solid;
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+
+        .cafe-circle:hover {
+            transform: scale(1.08);
+        }
+
+        .circle-available { border-color: #198754; color: #198754; }
+        .circle-occupied   { border-color: #dc3545; color: #dc3545; background-color: #f8d7da; }
+
+        .table-1 { top: 40px;  left: 40px; }
+        .table-2 { top: 200px; left: 40px; }
+        .table-3 { top: 360px; left: 40px; }
+        .table-4 { top: 200px; left: 240px; }
+        .table-5 { top: 200px; left: 440px; }
+        .table-6 { top: 40px; left: 440px; }
+        .table-7 { top: 360px; left: 240px; }
+        .table-8 { top: 330px; left: 420px; width: 130px; height: 130px; }
     </style>
 </head>
 
-<body>
+<body style="background-color: #cfe2ff;">
     <nav class="navbar navbar-dark bg-dark mb-4">
         <div class="container">
             <a class="navbar-brand" href="{% url 'table_list' %}">

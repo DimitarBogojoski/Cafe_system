@@ -7,49 +7,30 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
         <h1 class="mb-1">Cafe Tables</h1>
-        <p class="text-muted mb-0">
-            Select a table to view or edit its order.
-        </p>
+        <p class="text-muted mb-0">Click a table to view or edit its order.</p>
     </div>
-
     <div>
         <span class="badge bg-success">Available</span>
         <span class="badge bg-danger">Occupied</span>
     </div>
 </div>
 
-<div class="cafe-floor p-4">
-    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
-        {% for table in tables %}
-            <div class="col">
-                <button
-                    type="button"
-                    class="card w-100 cafe-table {% if table.is_occupied %}table-occupied{% else %}table-available{% endif %}"
-                    data-bs-toggle="modal"
-                    data-bs-target="#tableModal"
-                    data-table-id="{{ table.id }}"
-                    data-table-number="{{ table.number }}"
-                    data-table-status="{% if table.is_occupied %}Occupied{% else %}Available{% endif %}"
-                >
-                    <div class="card-body text-center">
-                        <h4 class="card-title">Table {{ table.number }}</h4>
-
-                        {% if table.is_occupied %}
-                            <span class="badge bg-danger">Occupied</span>
-                        {% else %}
-                            <span class="badge bg-success">Available</span>
-                        {% endif %}
-                    </div>
-                </button>
-            </div>
-        {% empty %}
-            <div class="col-12">
-                <div class="alert alert-warning">
-                    No tables have been created yet.
-                </div>
-            </div>
-        {% endfor %}
-    </div>
+<div class="cafe-floor">
+    <div class="cafe-floor-inside">
+    {% for table in tables %}
+        <button
+            type="button"
+            class="cafe-circle table-{{ table.number }} {% if table.is_occupied %}circle-occupied{% else %}circle-available{% endif %}"
+            data-bs-toggle="modal"
+            data-bs-target="#tableModal"
+            data-table-id="{{ table.id }}"
+            data-table-number="{{ table.number }}"
+            data-table-status="{% if table.is_occupied %}Occupied{% else %}Available{% endif %}"
+        >
+            {{ table.number }}
+        </button>
+    {% endfor %}
+        </div>
 </div>
 
 <div class="modal fade" id="tableModal" tabindex="-1" aria-labelledby="tableModalLabel" aria-hidden="true">

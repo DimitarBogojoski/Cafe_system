@@ -1,6 +1,12 @@
 from django.contrib import admin
+from .models import Tables, Products, Order, OrderItem
 
-from core.models import *
+
+@admin.register(Tables)
+class TablesAdmin(admin.ModelAdmin):
+    list_display = ("number",)
 
 
-# Register your models here.
+admin.site.register(Products)
+admin.site.register(Order)
+admin.site.register(OrderItem)

@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import transaction
 
-from core.models import Order,OrderItem,Products
+from core.models import Order,OrderItem,Products,Tables
 
 @transaction.atomic
 def add_product_to_order(order_id,product_id,quantity):
@@ -38,4 +38,12 @@ def pay_order(order_id):
     order = Order.objects.select_for_update().get(id=order_id,status="open")
     order.status = "paid"
     order.save(update_fields=["status"])
+    return order
+
+def get_or_create_open_order(table_id):
+    table = Tables.objects.get(id=table_id)
+    order = Order.objects.filter(table=table,status="open").first()
+    if order is None:
+        order = Order.objects.create(table=table,status="open")
+
     return order

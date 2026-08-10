@@ -22,4 +22,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("tables/", views.table_list, name="table_list"),
     path("", views.table_list, name="home"),
+
+path("api/tables/<int:table_id>/order/", views.order_detail, name="order_detail"),
+    path("api/tables/<int:table_id>/order/add/", views.order_add_item, name="order_add_item"),
+    path("api/tables/<int:table_id>/order/pay/", views.order_pay, name="order_pay"),
+    path("api/order-items/<int:item_id>/remove/", views.order_remove_item, name="order_remove_item"),
 ]
